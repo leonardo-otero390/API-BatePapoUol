@@ -17,10 +17,9 @@ export async function insert(req, res) {
       .findOneAndUpdate(
         { name: user },
         { $set: { lastStatus: Date.now() } },
-        { returnNewDocument: true }
       );
     if (!update.value) return res.sendStatus(404);
-    connection.mongoClient.close();
+    await connection.mongoClient.close();
     return res.sendStatus(200);
   } catch (error) {
     console.log(error);
@@ -58,7 +57,7 @@ export async function autoRemove() {
       creatLeaveRoomMessage(name)
     );
     await connection.db.collection('messages').insertMany(messages);
-    connection.mongoClient.close();
+    await connection.mongoClient.close();
   } catch (error) {
     console.log(error);
     connection.mongoClient.close();

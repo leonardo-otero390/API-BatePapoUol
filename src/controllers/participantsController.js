@@ -28,7 +28,7 @@ export async function insert(req, res) {
       type: 'status',
       time: dayjs().format('HH:mm:ss'),
     });
-    connection.mongoClient.close();
+    await connection.mongoClient.close();
     return res.sendStatus(201);
   } catch (error) {
     console.error(error);
@@ -43,7 +43,7 @@ export async function find(req, res) {
       .collection('participants')
       .find({}, { projection: { _id: 0 } })
       .toArray();
-    connection.mongoClient.close();
+    await connection.mongoClient.close();
     return res.send(participants);
   } catch (error) {
     console.error(error);

@@ -30,7 +30,7 @@ export async function insert(req, res) {
       time: dayjs().format('HH:mm:ss'),
     };
     await connection.db.collection('messages').insertOne(message);
-    connection.mongoClient.close();
+    await connection.mongoClient.close();
     return res.sendStatus(201);
   } catch (error) {
     console.error(error);
@@ -52,7 +52,7 @@ export async function find(req, res) {
       .toArray();
     if (!limit) limit = messages.length;
     const limited = messages.slice(messages.length - limit);
-    connection.mongoClient.close();
+    await connection.mongoClient.close();
     return res.send(limited);
   } catch (error) {
     console.error(error);
