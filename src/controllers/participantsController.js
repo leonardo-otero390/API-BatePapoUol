@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import Joi from 'joi';
 import connection from '../database/connection.js';
 
-export async function insertParticipant(req, res) {
+export async function insert(req, res) {
   const schema = Joi.object({
     name: Joi.string().min(1).required(),
   });
@@ -28,6 +28,21 @@ export async function insertParticipant(req, res) {
     });
     await connection.mongoClient.close();
     return res.sendStatus(201);
+  } catch (error) {
+    console.error(error);
+    await connection.mongoClient.close();
+    return res.sendStatus(500);
+  }
+}
+export async function find(req, res) {
+  try {
+    await connection.mongoClient.connect();
+    const participants = await connection.db
+      .collection('participants')
+      .find({}, { projection: { _id: 1 } })
+      .toArray();
+    await connection.mongoClient.close();
+    return res.send(participants);
   } catch (error) {
     console.error(error);
     await connection.mongoClient.close();
