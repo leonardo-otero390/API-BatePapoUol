@@ -26,11 +26,11 @@ export async function insert(req, res) {
       type: 'status',
       time: dayjs().format('HH:mm:ss'),
     });
-    await connection.mongoClient.close();
+    connection.mongoClient.close();
     return res.sendStatus(201);
   } catch (error) {
     console.error(error);
-    await connection.mongoClient.close();
+    connection.mongoClient.close();
     return res.sendStatus(500);
   }
 }
@@ -41,11 +41,11 @@ export async function find(req, res) {
       .collection('participants')
       .find({}, { projection: { _id: 1 } })
       .toArray();
-    await connection.mongoClient.close();
+    connection.mongoClient.close();
     return res.send(participants);
   } catch (error) {
     console.error(error);
-    await connection.mongoClient.close();
+    connection.mongoClient.close();
     return res.sendStatus(500);
   }
 }

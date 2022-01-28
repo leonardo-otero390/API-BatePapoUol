@@ -32,11 +32,11 @@ export async function insert(req, res) {
       time: dayjs().format('HH:mm:ss'),
     };
     await connection.db.collection('messages').insertOne(message);
-    await connection.mongoClient.close();
+    connection.mongoClient.close();
     return res.sendStatus(201);
   } catch (error) {
     console.error(error);
-    await connection.mongoClient.close();
+    connection.mongoClient.close();
     return res.sendStatus(500);
   }
 }
