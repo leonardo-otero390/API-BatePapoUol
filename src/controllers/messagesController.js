@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import Joi from 'joi';
+import { ObjectId } from 'mongodb';
 // eslint-disable-next-line import/no-unresolved
 import { stripHtml } from 'string-strip-html';
 import connection from '../database/connection.js';
@@ -45,15 +46,32 @@ export async function find(req, res) {
     await connection.mongoClient.connect();
     const messages = await connection.db
       .collection('messages')
-      .find(
-        { $or: [{ from: user }, { to: user }, { to: 'Todos' }] },
-        { projection: { _id: 0 } }
-      )
+      .find({ $or: [{ from: user }, { to: user }, { to: 'Todos' }] })
       .toArray();
     if (!limit) limit = messages.length;
     const limited = messages.slice(messages.length - limit);
     await connection.mongoClient.close();
     return res.send(limited);
+  } catch (error) {
+    console.error(error);
+    connection.mongoClient.close();
+    return res.sendStatus(500);
+  }
+}
+export async function remove(req, res) {
+  const { user } = req.headers;
+  const { id } = req.params;
+
+  try {
+    await connection.mongoClient.connect();
+    const message = await connection.db
+      .collection('messages')
+      .findOne({ _id: ObjectId(id) });
+    if (!message) return res.sendStatus(404);
+    if (message.from !== user) return res.sendStatus(401);
+    await connection.db.collection('messages').deleteOne({ _id: ObjectId(id) });
+    await connection.mongoClient.close();
+    return res.sendStatus(204);
   } catch (error) {
     console.error(error);
     connection.mongoClient.close();
