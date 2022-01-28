@@ -37,7 +37,6 @@ function creatLeaveRoomMessage(from) {
     time: dayjs().format('HH:mm:ss'),
   };
 }
-
 export async function autoRemove() {
   const SECONDS = 1000;
   const lastValidStatus = Date.now() - 10 * SECONDS;

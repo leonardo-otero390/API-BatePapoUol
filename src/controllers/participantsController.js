@@ -1,5 +1,7 @@
 import dayjs from 'dayjs';
 import Joi from 'joi';
+// eslint-disable-next-line import/no-unresolved
+import { stripHtml } from 'string-strip-html';
 import connection from '../database/connection.js';
 
 export async function insert(req, res) {
@@ -8,7 +10,7 @@ export async function insert(req, res) {
   });
   if (schema.validate(req.body).error !== undefined) return res.sendStatus(422);
 
-  const { name } = req.body;
+  const name = stripHtml(req.body.name).result.trim();
 
   try {
     await connection.mongoClient.connect();

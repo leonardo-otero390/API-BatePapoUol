@@ -16,10 +16,8 @@ export async function insert(req, res) {
   if (schema.validate({ ...req.body, user }).error !== undefined) {
     return res.sendStatus(422);
   }
-
   try {
     await connection.mongoClient.connect();
-
     const participantIsOn = await connection.db
       .collection('participants')
       .findOne({ name: user });
