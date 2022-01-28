@@ -7,5 +7,6 @@ const routes = new Router();
 routes.post('/participants', participantsController.insert);
 routes.get('/participants', participantsController.find);
 routes.post('/messages', messagesController.insert);
+routes.get('/messages', messagesController.find);
 
 export default routes;

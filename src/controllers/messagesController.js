@@ -40,3 +40,25 @@ export async function insert(req, res) {
     return res.sendStatus(500);
   }
 }
+export async function find(req, res) {
+  const { user } = req.headers;
+  let { limit } = req.query;
+  try {
+    await connection.mongoClient.connect();
+    const messages = await connection.db
+      .collection('messages')
+      .find(
+        { $or: [{ from: user }, { to: user }, { to: 'Todos' }] },
+        { projection: { _id: 0 } }
+      )
+      .toArray();
+    if (!limit) limit = messages.length;
+    const limited = messages.slice(messages.length - limit);
+    connection.mongoClient.close();
+    return res.send(limited);
+  } catch (error) {
+    console.error(error);
+    connection.mongoClient.close();
+    return res.sendStatus(500);
+  }
+}

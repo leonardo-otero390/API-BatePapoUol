@@ -39,7 +39,7 @@ export async function find(req, res) {
     await connection.mongoClient.connect();
     const participants = await connection.db
       .collection('participants')
-      .find({}, { projection: { _id: 1 } })
+      .find({}, { projection: { _id: 0 } })
       .toArray();
     connection.mongoClient.close();
     return res.send(participants);
