@@ -19,10 +19,16 @@ export async function insert(req, res) {
   }
   try {
     await connection.mongoClient.connect();
-    const participantIsOn = await connection.db
+    const participantsAreOn = await connection.db
       .collection('participants')
-      .findOne({ name: user });
-    if (!participantIsOn) return res.sendStatus(422);
+      .find({ $or: [{ name: user }, { name: to }] })
+      .toArray();
+    if (
+      (participantsAreOn.length < 2 && to !== 'Todos' && user !== to) ||
+      (!participantsAreOn.length && user !== to)
+    )
+      return res.sendStatus(422);
+
     const message = {
       type,
       to,
@@ -94,13 +100,18 @@ export async function update(req, res) {
   }
   try {
     await connection.mongoClient.connect();
-    const participantIsOn = await connection.db
+    const participantsAreOn = await connection.db
       .collection('participants')
-      .findOne({ name: user });
-    if (!participantIsOn) return res.sendStatus(422);
+      .find({ $or: [{ name: user }, { name: to }] })
+      .toArray();
+    if (
+      (participantsAreOn.length < 2 && to !== 'Todos' && user !== to) ||
+      (!participantsAreOn.length && user !== to)
+    )
+      return res.sendStatus(422);
     const updatingMessage = await connection.db
-    .collection('messages')
-    .findOne({ _id: ObjectId(id) });
+      .collection('messages')
+      .findOne({ _id: ObjectId(id) });
     if (!updatingMessage) return res.sendStatus(404);
     if (updatingMessage.from !== user) return res.sendStatus(401);
     const message = {
@@ -110,7 +121,9 @@ export async function update(req, res) {
       from: user,
       time: dayjs().format('HH:mm:ss'),
     };
-    await connection.db.collection('messages').updateOne({ _id: ObjectId(id) },{$set:message})
+    await connection.db
+      .collection('messages')
+      .updateOne({ _id: ObjectId(id) }, { $set: message });
     await connection.mongoClient.close();
     return res.sendStatus(201);
   } catch (error) {
