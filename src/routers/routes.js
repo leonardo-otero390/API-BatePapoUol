@@ -10,6 +10,7 @@ routes.get('/participants', participantsController.find);
 routes.post('/messages', messagesController.insert);
 routes.get('/messages', messagesController.find);
 routes.delete('/messages/:id', messagesController.remove);
+routes.put('/messages/:id', messagesController.update);
 routes.post('/status', statusController.insert);
 
 export default routes;
