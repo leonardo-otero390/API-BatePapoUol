@@ -86,18 +86,20 @@ For the following validations you get status <strong style="color:purple;">422</
 ```json
 [
   {
-    "from": "joe",
-    "to": "Maria",
-    "text": "Let's play gartic?",
-    "type": "private_message",
-    "time": "23:59:59"
+    "_id": "61f2f8d996187a6d33d7427f",
+    "from": "jorel",
+    "to": "Todos",
+    "text": "entra na sala...",
+    "type": "status",
+    "time": "15:56:09"
   },
   {
-    "from": "Bob",
+    "_id": "61f2f90defb14acd481c9563",
+    "from": "joel",
     "to": "Todos",
-    "text": "Hello guys",
-    "type": "message",
-    "time": "23:57:31"
+    "text": "entra na sala...",
+    "type": "status",
+    "time": "15:57:01"
   },
 ]
 ```
@@ -105,6 +107,58 @@ For the following validations you get status <strong style="color:purple;">422</
 - you can limit the number of messages by query messages?limit=100
 
 - send a connected user on headers, so you can recieve private messages
+
+</details>
+<details>
+    <summary>
+        <strong style="color:red;">DELETE</strong> /messages/message_id
+    </summary>
+
+- send message's owner username on headers
+
+- send message id by path params
+
+- it returns status <strong style="color:green;">204</strong> for success
+
+- it returns status <strong style="color:purple;">404</strong> for invalid message id
+
+- it returns status <strong style="color:purple;">401</strong> for user not owner
+
+</details>
+<details>
+    <summary>
+        <strong style="color:blue;">PUT</strong> /messages/message_id
+    </summary>
+
+- send a body like this:
+
+```json
+{
+  "to": "Maria",
+  "text": "Hello guys",
+  "type": "private_message"
+}
+```
+
+- send username that is sending the message on headers
+
+For the following validations you get status <strong style="color:purple;">422</strong>:
+
+- type needs to be 'message' or 'private_message'
+
+- to and text can't be empty
+
+- username from headers
+
+- "to" needs to be "Todos" (for all) or a connected user
+
+- send message id by path params
+
+- it returns status <strong style="color:green;">204</strong> for success
+
+- it returns status <strong style="color:purple;">404</strong> for invalid message id
+
+- it returns status <strong style="color:purple;">401</strong> for user not owner
 
 </details>
 <details>

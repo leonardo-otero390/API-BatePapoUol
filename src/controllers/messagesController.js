@@ -125,7 +125,7 @@ export async function update(req, res) {
       .collection('messages')
       .updateOne({ _id: ObjectId(id) }, { $set: message });
     await connection.mongoClient.close();
-    return res.sendStatus(201);
+    return res.sendStatus(204);
   } catch (error) {
     console.error(error);
     connection.mongoClient.close();
