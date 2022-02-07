@@ -194,21 +194,22 @@ For the following validations you get status <strong style="color:purple;">422</
 
 ### [npm](https://www.npmjs.com/)
 
+
 <details>
     <summary>install npm</summary>
 
 ```bash
 wget -qO- <https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh> | bash
 
-## Ou esse comando
+## Or this command
 wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
 
-# Feche e abra o terminal novamente
+# Close and open terminal
 nvm install --lts
 nvm use --lts
-# Verificar a versão do node
-node --version # Deve exibir v14.16.1
-# Verificar a versão do npm
+# Verify node version
+node --version # Must show v14.16.1
+# Verify npm version
 npm -v
 ```
 
@@ -226,8 +227,7 @@ sudo apt-get update
 sudo apt-get install -y mongodb-org
 mkdir ~/.mongo
 ```
-
-- Se falhar execute o seguinte comando e tente novamente o primeiro
+- If it fails execute the following command and then try again the first one
 
 ```bash
 sudo apt-get install gnupg wget
