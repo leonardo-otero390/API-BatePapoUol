@@ -100,7 +100,7 @@ For the following validations you get status <strong style="color:purple;">422</
     "text": "entra na sala...",
     "type": "status",
     "time": "15:57:01"
-  },
+  }
 ]
 ```
 
@@ -211,6 +211,7 @@ node --version # Deve exibir v14.16.1
 # Verificar a versão do npm
 npm -v
 ```
+
 </details>
 
 ### [mongodb](https://www.mongodb.com/)
@@ -225,13 +226,14 @@ sudo apt-get update
 sudo apt-get install -y mongodb-org
 mkdir ~/.mongo
 ```
-* Se falhar execute o seguinte comando e tente novamente o primeiro
+
+- Se falhar execute o seguinte comando e tente novamente o primeiro
 
 ```bash
 sudo apt-get install gnupg wget
 ```
-</details>
 
+</details>
 
 ## How to run
 
